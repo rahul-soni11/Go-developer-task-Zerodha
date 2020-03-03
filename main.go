@@ -15,7 +15,7 @@ import (
 func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "3000"
+		port = "2222"
 	}
 	mux := http.NewServeMux()
 
@@ -110,7 +110,10 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	// fmt.Println(rd.Rows[0])
-
+	if rd.Results == 0 {
+		fmt.Println("Details not Found!")
+		tpl.Execute(w, nil)
+		return
+	}
 	tpl.Execute(w, rd.Rows[0])
 }
